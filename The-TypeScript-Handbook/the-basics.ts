@@ -7,7 +7,7 @@
     message.toLowerCase();
 
     // Calling 'message'
-    message(); // TypeError: message is not a function
+    //message(); // TypeError: message is not a function
 
     // Now let's say message was define at the top of the file (look at the top of the file)
 
@@ -38,4 +38,62 @@
 
 // NON-EXCEPTION FAILURES
 
-    
+    // Runtime errors occur when JavaScript runtime finds and points out something nonsensical in the code. Example:
+
+const user = {
+    name: "Daniel",
+    age: 26,
+};
+
+// user.location; // undefined
+
+    // JavaScript will not immediately catch the error above. Since we are in a TypeScript file, though, the error will be caught at compile time.
+
+    // Typos:
+
+const announcement =  'Hello World';
+
+// announcement.toLocaleLowercase();
+// announcement.toLocalLowerCase();
+
+announcement.toLocaleLowerCase();
+
+    //Uncalled functions:
+
+function flipCoin() {
+    // Meant to be Math.random()
+    // return Math.random < 0.5;
+} // Operator '<' cannot be applied to types '() => number' and 'number'
+
+    //Basic Logic Errors:
+
+const value = Math.random() < 0.5 ? "a" : "b";
+if (value !== "a") {
+    // ...
+// } else if (value === "b") { // This comparison appears to be unintentional because the types '"a"' and '"b"' have no overlap.
+    // Oops, unreachable
+}
+
+// TYPES FOR TOOLING
+
+    // TypeScript can be used to provide tooling for JavaScript. Example:
+
+ /*
+import express from 'express';
+const app = express();
+
+app.get('/', function (req, res) {
+    res.send('Hello World'); // With TypeScript tooling typing "se.." will suggest "send"
+});
+
+app.listen(3000, function () {
+    console.log('App is listening on port 3000');
+});
+*/
+
+// tsc, THE TYPESCRIPT COMPILER
+
+// npm install -g typescript
+
+    // With this command we can compile TypeScript files to JavaScript files. Example:
+
