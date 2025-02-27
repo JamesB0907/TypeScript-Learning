@@ -93,7 +93,86 @@ app.listen(3000, function () {
 
 // tsc, THE TYPESCRIPT COMPILER
 
-// npm install -g typescript
+    // npm install -g typescript
 
     // With this command we can compile TypeScript files to JavaScript files. Example:
 
+    // See hello.ts for tsc illustration
+
+// EMITTING WITH ERRORS
+
+    // tsc will by default emit JavaScript even when there are type errors.
+
+    // You can add an optional flag to stop this behavior:
+    //tsc --noEmitOnError hello.ts
+
+    // ERROR:
+    /*
+        hello.ts:8:1 - error TS2554: Expected 2 arguments, but got 1.
+
+        8 greet("Brendan");
+        ~~~~~
+
+        hello.ts:4:24
+            4 function greet(person, date) {
+                                ~~~~
+            An argument for 'date' was not provided.
+
+        Found 1 error in hello.ts:8
+    */
+
+// EXPLICIT TYPES
+
+    // Here we updated the hello.ts file to include explicit types and provide a second argument to illustrate the error catching abilities of TypeScript.
+
+    // We do not always have to provide explicit types. Sometimes these can be inferred.
+
+    let msg = 'hello there'; // This will not throw an error.
+
+// ERASED TYPES
+
+    // Now let's see what JavaScript is outputted when we compile the TypeScript file. (refer to hello.js)
+
+    // The TypeScript compiler will erase all types when it compiles to JavaScript.
+
+// DOWNLEVELING
+
+    // In regards to the differences between using template literal and normal strings, the TypeScript compiler will downlevel the template literal to a normal string.
+
+    // This is because TypeScript specifically targets ES5 which was before the introduction of template literals.
+
+    // We can add a flag to the tsc command to target the version of ECMAScript that we want to compile to. Example:
+
+    // tsc --target es2015 hello.ts
+
+// STRICTNESS
+
+    // TypeScript allows for different levels of tooling for users who want to use TypeScript in different ways.
+
+    // Some users only want the bare minimum of type-checking while others want the most strict type-checking possible.
+
+    // In instances of stricter versions, flags can be added to the tsc command to enforce these rules.
+
+// noImplicitAny
+
+    // This flag will throw an error when TypeScript cannot infer a type.
+
+    // Example:
+    function fn1(arg) {
+        return arg;
+    } // tsc --noImplicitAny the-basics.ts
+
+    // This will throw an error because TypeScript cannot infer the type of 'arg'.
+
+// strictNullChecks
+
+    // This flag will throw an error when a variable is not explicitly defined as nullable.
+
+    // Example:
+    let x = 10;
+    // x = null; 
+    // tsc --strictNullChecks the-basics.ts
+
+    // // This will throw an error because 'x' is not explicitly defined as nullable.
+
+// END - Move to everyday-types.ts
