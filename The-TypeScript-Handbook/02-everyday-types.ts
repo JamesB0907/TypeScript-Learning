@@ -199,7 +199,7 @@ const getInput = () => "   user input   ";//placeholder
 // Example code from the handbook:
 type UserInputSanitizedString = string;
 
-function sanitizeInput(str: string): UserInputSanitizedString {
+function sanitizeInput (str: string): UserInputSanitizedString {
     return sanitize(str);
 }
 // Create a sanitzed input
@@ -289,3 +289,13 @@ const myCanvas = document.getElementById("main_canvas") as HTMLCanvasElement;
 // If the code is specifically not tsx, you can also use angle-bracket.
 
 const myCanvas2 = <HTMLCanvasElement>document.getElementById("main_canvas");
+
+// Assertions don't allow impossible coercions of types. The following will throw an error because a string cannot be coerced into a number.
+// const x = "hello" as number;
+
+// Using two assertions allows you to coerce a value to any type, even if it is not compatible with the original type. This is because the first assertion converts the value to 'any', which can then be asserted to any other type.
+// const a = expr as any as T; // We are assuming 'expr' is some expression and 'T' is some type. This is a way to forcefully assert that 'expr' is of type 'T', even if it is not compatible with the original type of 'expr'.
+
+const y = "hello" as any as number; // This will not throw an error, but it is not recommended to use this pattern as it can lead to runtime errors if the value is not actually of the asserted type.
+
+console.log(typeof y)
