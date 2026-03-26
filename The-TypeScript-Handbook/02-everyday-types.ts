@@ -177,7 +177,7 @@ function getFirstThree(x: number[] | string) {
 
 type Point = {
     x: number;
-    y: number;  
+    y: number;
 } // We for this type as an object with explicitly declared properties. We can now use this type alias in our function parameter.
 
 function printCoord2(pt: Point) {
@@ -199,7 +199,7 @@ const getInput = () => "   user input   ";//placeholder
 // Example code from the handbook:
 type UserInputSanitizedString = string;
 
-function sanitizeInput (str: string): UserInputSanitizedString {
+function sanitizeInput(str: string): UserInputSanitizedString {
     return sanitize(str);
 }
 // Create a sanitzed input
@@ -299,3 +299,120 @@ const myCanvas2 = <HTMLCanvasElement>document.getElementById("main_canvas");
 const y = "hello" as any as number; // This will not throw an error, but it is not recommended to use this pattern as it can lead to runtime errors if the value is not actually of the asserted type.
 
 console.log(typeof y)
+
+//LITERAL TYPES
+// Literal types in TypeScript are when the type of a const variable is literally it's value as a opposed to it's primitive.
+let changingString = "Hello World";
+changingString = "Olá Mundo";
+// Because `changingString` can represent any possible string, that
+// is how TypeScript describes it in the type system
+changingString; // <--- Just a generic 'string' type
+
+const constantString = "Hello world";
+// Because `constantString` can only represent 1 possible string, it
+// has a literal type representation
+constantString; // <--- Only ever is the "Hello world" "type"
+
+let x: "hello" = "hello";
+//OK
+x = "hello";
+// ...
+// x = "howdy";
+
+function printText(s: string, alignment: "left" | "right" | "center") {
+    // ...
+}
+printText("Hello, world", "left");
+// printText("G'day, mate", "centre");
+// Argument of type '"centre"' is not assignable to parameter of type '"left" | "right" | "center"'.
+
+function compare(a: string, b: string): -1 | 0 | 1 {
+    return a === b ? 0 : a > b ? 1 : -1;
+}
+
+interface Options {
+    width: number;
+}
+
+function configure(x: Options | "auto") {
+    // ...
+}
+configure({ width: 100 });
+configure("auto");
+// configure("automatic");
+
+// Literal Inference
+// Literal inference is when you're able to rewrite the literal type within objects set to a const, even thought they are type literally in other cases.
+// My placeholder:
+let someCondition = true; // Placeholder for some condition
+// Example code from the handbook:
+const obj2 = { counter: 0 };
+if (someCondition) {
+    obj2.counter = 1;
+}
+
+// With strings
+declare function handleRequest(url: string, method: "GET" | "POST"): void;
+
+const req = { url: "https://example.com", method: "GET" };
+// handleRequest(req.url, req.method); Throws an error because it is inferred as a string not "GET" or "POST"
+
+// We can assert the literal type:
+// Change 1:
+const req2 = { url: "https://example.com", method: "GET" as "GET" };
+// Change 2
+handleRequest(req2.url, req2.method as "GET");
+
+// Or we can use as const:
+const req3 = { url: "https://example.com", method: "GET" } as const;
+handleRequest(req3.url, req3.method);
+
+//NULL AND UNDEFINED
+// JavaScript has the primitive values null and undefined. TypeScript as types that match.
+
+// strictNullChecks off
+// Acts as if null and undefined are of type 'any' and run the program regardless.
+
+// strictNullChecks on
+// When it is on you will need to create error checks or conditionals that handle null or undefined values.
+
+function doSomething(x: string | null) {
+    if (x === null) {
+        // do nothing
+    } else {
+        console.log("Hello, " + x.toUpperCase());
+    }
+}
+
+// Non-null Assertion Operator
+
+function liveDangerously(x?: number | null) {
+  // No error
+  console.log(x!.toFixed());
+}
+
+// ENUM
+
+enum Direction {
+    Up = 1,
+    Down,
+    Left,
+    Right,  
+}
+
+// LESS COMMON PRIMITIVE 
+
+//bigint
+
+const javascriptBigInt = BigInt(9007199254740991);
+const typescriptBigInt: bigint = BigInt(9007199254740991);
+
+//symbol
+
+const firstName = Symbol("name");
+const secondName = Symbol("name");
+
+// if (firstName === secondName) {
+    // do something
+// }
+
